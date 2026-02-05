@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 225 33% 3%;
+    --foreground: 230 60% 97%;
+    --card: 225 25% 5%;
+    --card-foreground: 230 60% 97%;
+    --popover: 225 25% 5%;
+    --popover-foreground: 230 60% 97%;
+    --primary: 330 100% 59%;
+    --primary-foreground: 225 33% 3%;
+    --secondary: 225 20% 8%;
+    --secondary-foreground: 230 60% 97%;
+    --muted: 225 20% 12%;
+    --muted-foreground: 225 15% 65%;
+    --accent: 330 100% 59%;
+    --accent-foreground: 225 33% 3%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 225 20% 15%;
+    --input: 225 20% 15%;
+    --ring: 330 100% 59%;
+    --radius: 0.625rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+    background-color: #05060B;
+    overflow-x: hidden;
+  }
+}
+
+/* Typography */
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Noise overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Section base styles */
+.section-pinned {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CTA Button - energetic style */
+.cta-button {
+  @apply inline-flex items-center justify-center px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 uppercase tracking-wider;
+  background: linear-gradient(135deg, #FF2D8F 0%, #FF0066 100%);
+  color: #fff;
+  box-shadow: 0 4px 30px rgba(255, 45, 143, 0.4), 0 0 60px rgba(255, 45, 143, 0.2);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 40px rgba(255, 45, 143, 0.6), 0 0 80px rgba(255, 45, 143, 0.3);
+}
+
+.cta-button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Secondary CTA */
+.cta-secondary {
+  @apply inline-flex items-center justify-center px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 uppercase tracking-wider border-2;
+  border-color: rgba(255, 45, 143, 0.5);
+  color: #FF2D8F;
+  background: transparent;
+}
+
+.cta-secondary:hover {
+  background: rgba(255, 45, 143, 0.1);
+  border-color: #FF2D8F;
+  transform: translateY(-2px);
+}
+
+/* Experiment Card - Lab style */
+.experiment-card {
+  @apply relative overflow-hidden rounded-3xl transition-all duration-500 cursor-pointer;
+  background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.experiment-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 45, 143, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.experiment-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255, 45, 143, 0.4);
+  box-shadow: 
+    0 20px 60px rgba(255, 45, 143, 0.2),
+    0 0 100px rgba(255, 45, 143, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.experiment-card:hover::before {
+  opacity: 1;
+}
+
+/* Bubbles */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-3deg);
+  }
+  75% {
+    transform: translateY(-20px) rotate(3deg);
+  }
+}
+
+@keyframes bubble-rise {
+  0% {
+    transform: translateY(100%) scale(0.5);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-200%) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 45, 143, 0.4), 0 0 40px rgba(255, 45, 143, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 45, 143, 0.6), 0 0 80px rgba(255, 45, 143, 0.3);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+  20%, 40%, 60%, 80% { transform: translateX(3px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+  100% { transform: translate(0); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-float-slow {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s ease-out;
+}
+
+.animate-glitch {
+  animation: glitch 0.3s ease-in-out;
+}
+
+/* Particle styles */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Flask liquid animation */
+@keyframes liquid-wave {
+  0%, 100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-50%) rotate(2deg);
+  }
+  75% {
+    transform: translateX(-50%) rotate(-2deg);
+  }
+}
+
+/* Counter animation */
+@keyframes count-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Grid background */
+.grid-bg {
+  background-image: 
+    linear-gradient(rgba(255, 45, 143, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 45, 143, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Radial gradient glow */
+.radial-glow {
+  background: radial-gradient(ellipse at center, rgba(255, 45, 143, 0.15) 0%, transparent 70%);
+}
+
+/* Social icon styles */
+.social-icon {
+  @apply flex items-center justify-center rounded-xl transition-all duration-300;
+  background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-icon:hover {
+  transform: scale(1.1) rotate(5deg);
+  border-color: rgba(255, 45, 143, 0.5);
+  box-shadow: 0 0 30px rgba(255, 45, 143, 0.3);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05060B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 45, 143, 0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 45, 143, 0.6);
+}
+
+/* Selection */
+::selection {
+  background: rgba(255, 45, 143, 0.4);
+  color: #F4F6FF;
+}
+
+/* Energy line */
+.energy-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FF2D8F, transparent);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Stat number */
+.stat-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  background: linear-gradient(135deg, #FF2D8F 0%, #FF6B9D 50%, #FF2D8F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
